@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - **`git_diff` argument ordering**: Separated flags from path arguments to enforce correct git CLI ordering (`git diff [flags] [commits] -- [paths]`), fixing cases where `--stat` or path args appeared in the wrong position
 - **`git_diff` stat mode missing untracked files**: Stat-only mode (`stat: true`) now includes untracked file statistics when `includeUntracked` is enabled, matching the behavior of full diff mode
 - **`parseGitDiffStat` zero-count handling**: Fixed parser failing to extract stats when git omits the insertions or deletions term (e.g., `1 file changed, 5 insertions(+)` with no deletions). Each term is now matched independently
+- **`git_diff` stat mode leaking full patch**: Stat-only mode (`stat: true`) included the full unified diff output when `contextLines` was set, because `--unified=N` was not stripped from the stat command flags. Git interprets `--unified=N --stat` as "output both stat summary and patch"
 
 ### Changed
 

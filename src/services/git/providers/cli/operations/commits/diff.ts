@@ -66,7 +66,9 @@ export async function executeDiff(
 
     // If stat-only mode requested, return stat output
     if (options.stat) {
-      const statFlags = flags.filter((f) => f !== '--name-only');
+      const statFlags = flags.filter(
+        (f) => f !== '--name-only' && !f.startsWith('--unified='),
+      );
       const statCmd = buildGitCommand({
         command: 'diff',
         args: [...statFlags, '--stat', ...pathArgs],
@@ -149,7 +151,9 @@ export async function executeDiff(
     }
 
     // Get diff stats for full diff mode
-    const statFlags = flags.filter((f) => f !== '--name-only');
+    const statFlags = flags.filter(
+      (f) => f !== '--name-only' && !f.startsWith('--unified='),
+    );
     const statCmd = buildGitCommand({
       command: 'diff',
       args: [...statFlags, '--stat', ...pathArgs],
