@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.8.5 - 2026-02-28
+
+### Fixed
+
+- **`git_diff` multi-path filtering**: Changed `GitDiffOptions.path` (single string) to `paths` (string array), enabling proper multi-path filtering. The tool layer previously joined paths with spaces, which broke when paths contained spaces and didn't leverage git's native multi-path support
+- **`git_diff` argument ordering**: Separated flags from path arguments to enforce correct git CLI ordering (`git diff [flags] [commits] -- [paths]`), fixing cases where `--stat` or path args appeared in the wrong position
+- **`git_diff` stat mode missing untracked files**: Stat-only mode (`stat: true`) now includes untracked file statistics when `includeUntracked` is enabled, matching the behavior of full diff mode
+- **`parseGitDiffStat` zero-count handling**: Fixed parser failing to extract stats when git omits the insertions or deletions term (e.g., `1 file changed, 5 insertions(+)` with no deletions). Each term is now matched independently
+
+### Changed
+
+- **Diff service refactoring**: Extracted `getUntrackedFiles()` and `execUntrackedDiff()` helpers from `executeDiff()`, eliminating duplicated untracked file logic between full diff and stat modes
+- **Dependency updates**: Updated hono, qs, @modelcontextprotocol/sdk, @opentelemetry/\*, @supabase/supabase-js, eslint, typescript-eslint, and other dev dependencies to latest versions
+
 ## v2.8.4 - 2026-02-14
 
 ### Fixed

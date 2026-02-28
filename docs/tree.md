@@ -1,19 +1,16 @@
 # git-mcp-server - Directory Structure
 
-Generated on: 2025-10-15 15:14:11
+Generated on: 2026-02-28 09:37:20
 
 ```
 git-mcp-server
-├── .clinerules
-│   └── clinerules.md
 ├── .github
 │   ├── codeql
 │   │   └── codeql-config.yml
 │   ├── workflows
-│   │   └── publish.yml
+│   │   └── ci.yml
 │   └── FUNDING.yml
 ├── .husky
-├── coverage
 ├── docs
 │   └── tree.md
 ├── scripts
@@ -54,6 +51,7 @@ git-mcp-server
 │   │   │   │   ├── git-add.tool.ts
 │   │   │   │   ├── git-blame.tool.ts
 │   │   │   │   ├── git-branch.tool.ts
+│   │   │   │   ├── git-changelog-analyze.tool.ts
 │   │   │   │   ├── git-checkout.tool.ts
 │   │   │   │   ├── git-cherry-pick.tool.ts
 │   │   │   │   ├── git-clean.tool.ts
@@ -263,8 +261,12 @@ git-mcp-server
 │   │   ├── index.int.test.ts
 │   │   └── index.test.ts
 │   ├── mcp-server
+│   │   ├── prompts
+│   │   │   └── definitions
+│   │   │       └── git-wrapup.prompt.test.ts
 │   │   ├── resources
 │   │   │   └── definitions
+│   │   │       └── git-working-directory.resource.test.ts
 │   │   ├── tools
 │   │   │   ├── definitions
 │   │   │   │   ├── helpers
@@ -276,20 +278,89 @@ git-mcp-server
 │   │   │   │   ├── integration
 │   │   │   │   ├── unit
 │   │   │   │   │   ├── git-add.tool.test.ts
+│   │   │   │   │   ├── git-blame.tool.test.ts
 │   │   │   │   │   ├── git-branch.tool.test.ts
+│   │   │   │   │   ├── git-changelog-analyze.tool.test.ts
+│   │   │   │   │   ├── git-checkout.tool.test.ts
+│   │   │   │   │   ├── git-cherry-pick.tool.test.ts
+│   │   │   │   │   ├── git-clean.tool.test.ts
+│   │   │   │   │   ├── git-clear-working-dir.tool.test.ts
+│   │   │   │   │   ├── git-clone.tool.test.ts
 │   │   │   │   │   ├── git-commit.tool.test.ts
+│   │   │   │   │   ├── git-diff.tool.test.ts
+│   │   │   │   │   ├── git-fetch.tool.test.ts
+│   │   │   │   │   ├── git-init.tool.test.ts
 │   │   │   │   │   ├── git-log.tool.test.ts
-│   │   │   │   │   └── git-status.tool.test.ts
+│   │   │   │   │   ├── git-merge.tool.test.ts
+│   │   │   │   │   ├── git-pull.tool.test.ts
+│   │   │   │   │   ├── git-push.tool.test.ts
+│   │   │   │   │   ├── git-rebase.tool.test.ts
+│   │   │   │   │   ├── git-reflog.tool.test.ts
+│   │   │   │   │   ├── git-remote.tool.test.ts
+│   │   │   │   │   ├── git-reset.tool.test.ts
+│   │   │   │   │   ├── git-set-working-dir.tool.test.ts
+│   │   │   │   │   ├── git-show.tool.test.ts
+│   │   │   │   │   ├── git-stash.tool.test.ts
+│   │   │   │   │   ├── git-status.tool.test.ts
+│   │   │   │   │   ├── git-tag.tool.test.ts
+│   │   │   │   │   ├── git-worktree.tool.test.ts
+│   │   │   │   │   └── git-wrapup-instructions.tool.test.ts
 │   │   │   │   └── README.md
+│   │   │   ├── schemas
+│   │   │   │   └── common.test.ts
 │   │   │   └── utils
+│   │   │       ├── git-validators.test.ts
+│   │   │       ├── json-response-formatter.test.ts
 │   │   │       └── markdown-builder.test.ts
 │   │   └── transports
 │   │       └── auth
 │   │           └── lib
-│   │               └── authUtils.test.ts
+│   │               ├── authUtils.test.ts
+│   │               └── withAuth.test.ts
 │   ├── mocks
 │   │   ├── handlers.ts
 │   │   └── server.ts
+│   ├── services
+│   │   └── git
+│   │       └── providers
+│   │           └── cli
+│   │               ├── operations
+│   │               │   ├── branches
+│   │               │   │   ├── branch.test.ts
+│   │               │   │   ├── checkout.test.ts
+│   │               │   │   ├── cherry-pick.test.ts
+│   │               │   │   ├── merge.test.ts
+│   │               │   │   └── rebase.test.ts
+│   │               │   ├── commits
+│   │               │   │   ├── commit.test.ts
+│   │               │   │   ├── diff.test.ts
+│   │               │   │   ├── log.test.ts
+│   │               │   │   └── show.test.ts
+│   │               │   ├── core
+│   │               │   │   ├── clean.test.ts
+│   │               │   │   ├── clone.test.ts
+│   │               │   │   ├── init.test.ts
+│   │               │   │   └── status.test.ts
+│   │               │   ├── history
+│   │               │   │   ├── blame.test.ts
+│   │               │   │   └── reflog.test.ts
+│   │               │   ├── remotes
+│   │               │   │   ├── fetch.test.ts
+│   │               │   │   ├── pull.test.ts
+│   │               │   │   ├── push.test.ts
+│   │               │   │   └── remote.test.ts
+│   │               │   ├── staging
+│   │               │   │   ├── add.test.ts
+│   │               │   │   └── reset.test.ts
+│   │               │   ├── stash
+│   │               │   │   └── stash.test.ts
+│   │               │   ├── tags
+│   │               │   │   └── tag.test.ts
+│   │               │   └── worktree
+│   │               │       └── worktree.test.ts
+│   │               └── utils
+│   │                   ├── command-builder.test.ts
+│   │                   └── runtime-adapter.test.ts
 │   ├── storage
 │   │   ├── providers
 │   │   │   ├── cloudflare
