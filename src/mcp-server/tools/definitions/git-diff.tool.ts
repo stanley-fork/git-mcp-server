@@ -94,7 +94,7 @@ async function gitDiffLogic(
       // Only include optional properties when defined (exactOptionalPropertyTypes)
       ...(input.target && { commit2: input.target }),
       ...(input.source && { commit1: input.source }),
-      ...(input.paths?.length && { path: input.paths.join(' ') }),
+      ...(input.paths?.length && { paths: input.paths }),
       staged: input.staged,
       includeUntracked: input.includeUntracked,
       nameOnly: input.nameOnly,

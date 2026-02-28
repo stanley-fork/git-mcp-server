@@ -348,7 +348,7 @@ new file mode 100644
         .mockResolvedValueOnce({ stdout: '', stderr: '' })
         .mockResolvedValueOnce({ stdout: '', stderr: '' });
 
-      await executeDiff({ path: 'src/index.ts' }, mockContext, mockExecGit);
+      await executeDiff({ paths: ['src/index.ts'] }, mockContext, mockExecGit);
 
       const [args] = mockExecGit.mock.calls[0]!;
       const dashDashIdx = args.indexOf('--');
@@ -414,7 +414,7 @@ Binary files a/image.png and b/image.png differ`;
         .mockResolvedValueOnce({ stdout: '', stderr: '' });
 
       await executeDiff(
-        { commit1: 'abc', commit2: 'def', path: 'src/' },
+        { commit1: 'abc', commit2: 'def', paths: ['src/'] },
         mockContext,
         mockExecGit,
       );

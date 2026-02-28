@@ -343,7 +343,7 @@ export interface GitDiffOptions {
   /** Show diff of staged changes */
   staged?: boolean;
   /** Limit diff to specific path(s) */
-  path?: string;
+  paths?: string[];
   /** Number of context lines */
   unified?: number;
   /** Include untracked files */

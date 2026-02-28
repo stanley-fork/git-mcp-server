@@ -193,12 +193,19 @@ export function parseGitDiffStat(output: string): {
     }
 
     // Match summary line: " 3 files changed, 25 insertions(+), 10 deletions(-)"
-    const summaryMatch = line.match(
-      /(\d+) insertion[s]?\(\+\).*?(\d+) deletion[s]?\(-\)/,
-    );
-    if (summaryMatch) {
-      totalAdditions = parseInt(summaryMatch[1]!, 10);
-      totalDeletions = parseInt(summaryMatch[2]!, 10);
+    // Git omits the insertions or deletions term when the count is zero,
+    // so match each independently to avoid falling back to symbol counting.
+    if (line.match(/\d+ files? changed/)) {
+      const insertionMatch = line.match(/(\d+) insertion[s]?\(\+\)/);
+      const deletionMatch = line.match(/(\d+) deletion[s]?\(-\)/);
+      if (insertionMatch || deletionMatch) {
+        totalAdditions = insertionMatch
+          ? parseInt(insertionMatch[1] ?? '0', 10)
+          : 0;
+        totalDeletions = deletionMatch
+          ? parseInt(deletionMatch[1] ?? '0', 10)
+          : 0;
+      }
     }
   }
 
